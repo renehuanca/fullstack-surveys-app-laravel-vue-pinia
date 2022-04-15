@@ -6,6 +6,7 @@ Siguiendo un tutorial de Codeholic solo cambiando a vuex por pinia, espero me fu
 npm install pinia
 npm install @headlessui/vue @heroicons/vue @tailwindcss/forms -S
 npm install vue-route@next
+npm install -S axios
 
 Ya que necesitas heroicons y tailwindcss para los componentes de tailwind
 
