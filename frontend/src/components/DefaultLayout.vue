@@ -23,10 +23,13 @@ const router = useRouter()
 
 function logout() {
   userStore.logout()
+    .then(() => {
+      router.push({
+        name: 'Login'
+      })
+    })
 
-  router.push({
-    name: 'Login'
-  })
+  
 }
 </script>
 
