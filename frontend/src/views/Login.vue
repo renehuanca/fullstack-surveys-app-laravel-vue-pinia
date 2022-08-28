@@ -15,8 +15,8 @@ const router = useRouter()
 
 const errorMessage = ref('')
 
-function login(ev: Event) {
-  ev.preventDefault()
+function login(evt: Event) {
+  evt.preventDefault()
   userStore.login(user)
     .then(() => {
       router.push({name: 'Dashboard'})
