@@ -28,9 +28,8 @@ function logout() {
         name: 'Login'
       })
     })
-
-  
 }
+
 </script>
 
 <template>
