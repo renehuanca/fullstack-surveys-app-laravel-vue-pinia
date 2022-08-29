@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { LockClosedIcon } from '@heroicons/vue/solid'
-import { useRouter } from 'vue-router'
-import { useUserStore } from '../stores/user'
+import { LockClosedIcon } from '@heroicons/vue/solid';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user';
+import { User } from '../types';
 
-const user = {
+const user: User = {
   name: '',
   email: '',
   password: '',
@@ -14,13 +15,14 @@ const userStore = useUserStore()
 
 const router = useRouter()
 
-function register(ev: Event) {
-  ev.preventDefault()
+function register(evt: Event) {
+  evt.preventDefault()
   userStore.register(user)
     .then((res) => {
       router.push({name: 'Dashboard'})
     })
 }
+
 </script>
 
 <template>

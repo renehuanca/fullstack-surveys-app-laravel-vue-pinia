@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { LockClosedIcon } from '@heroicons/vue/solid'
-import { useUserStore } from '../stores/user'
-import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { LockClosedIcon } from '@heroicons/vue/solid';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user';
+import { User } from '../types';
 
-const user = {
+const user: User = {
   email: '',
   password: ''
 }
@@ -25,6 +26,7 @@ function login(evt: Event) {
       errorMessage.value = err.response.data.error
     })
 }
+
 </script>
 
 <template>

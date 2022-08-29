@@ -1,13 +1,10 @@
-import { defineStore } from 'pinia'
-import axiosClient from '../axios'
+import { defineStore } from 'pinia';
+import axiosClient from '../axios';
+import { User } from '../types';
 
-interface UserState {
-    data: {
-        name?: string;
-        email?: string;
-        imageUrl?: string;
-    }
-    token: string | null;
+interface State {
+    data: User | null 
+    token: string | null
     surveys: any[]
 }
 
@@ -96,16 +93,16 @@ const tmpSurveys = [
 ]
 
 export const useUserStore = defineStore('user', {
-    state: (): UserState => ({
-        data: {},
+    state: (): State => ({
+        data: null,
         token: sessionStorage.getItem('token'),
         surveys: [...tmpSurveys]
     }),
     actions: {
         logout() {
-            return axiosClient.post(`/logout`)
+            return axiosClient.post('/logout')
                 .then(response => {
-                    this.data = {}
+                    this.data = null
                     this.token = null
                     sessionStorage.removeItem('token')
                     
@@ -113,22 +110,6 @@ export const useUserStore = defineStore('user', {
                 })
         },
         register(user: any) {
-            // return fetch(`http://localhost:8000/api/register`, {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         Accept: 'aplication/json'
-            //     },
-            //     method: 'POST',
-            //     body: JSON.stringify(user)
-            // })
-            //     .then(response => response.json())
-            //     .then(response => {
-            //         this.token = response.token
-            //         this.data = response.user
-            //         sessionStorage.setItem('token', response.token)
-
-            //         return response
-            //     })
             return axiosClient.post('/register', user)
                 .then(({data}) => {
                     this.token = data.token
@@ -138,7 +119,7 @@ export const useUserStore = defineStore('user', {
                     return data
                 })
         },
-        login(user: any) {
+        login(user: User) {
             return axiosClient.post('/login', user)
                 .then(({data}) => {
                     this.token = data.token
