@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import PageComponent from '../components/PageComponent.vue';
 import { useUserStore } from '../stores/user';
+import { PlusIcon } from '@heroicons/vue/outline';
 
 const route = useRoute()
 
@@ -108,6 +109,22 @@ function saveSurvey() {
                         </div>
                     </div>
                     <!--/ Status -->
+                </div>
+
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <h3 class="text-2xl font-semibold flex items-center justify-between">
+                        Questions
+                        <button class="flex items-center text-sm py-1 px-4 rounded-sm text-white bg-gray-600 hover:bg-gray-700 ">
+                            <PlusIcon class="h-3 w-3"/>
+                            Add Question
+                        </button>
+                    </h3>
+                    <div v-if="!model.questions.length" class="text-center text-gray-600">
+                        You don't have any questions created
+                    </div>
+                    <div v-for="(question, index) in model.questions" :key="question.id">
+                        <QuestionEditor :question="question" :index="index" @change="questionChange" @addQuestion="addQuestion" @deleteQuestion="deleteQuestion"/>
+                    </div>
                 </div>
 
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
