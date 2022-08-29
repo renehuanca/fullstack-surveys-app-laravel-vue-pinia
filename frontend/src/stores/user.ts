@@ -89,6 +89,18 @@ const tmpSurveys = [
                 data: {}
             }
         ]
+    },
+    {
+        id: 200,
+        title: "laravel 8",
+        slug: "laravel-8",
+        status: "active",
+        image: "https://upload.wikipedia.org/commons/thumb/8/9a/Laravel.svg/1200px-laravel.svg",
+        description: `Laravel is a web application framework with ecpressive, elegant syntax`,
+        created_at: "2021-12-20 18:00:00",
+        updated_at: "2021-12-20 18:00:00",
+        expire_date: "2021-12-31 18:00:00",
+        questions: [],
     }
 ]
 
