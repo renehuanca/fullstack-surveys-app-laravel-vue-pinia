@@ -5,7 +5,8 @@ import { User } from '../types';
 interface State {
     data: User | null 
     token: string | null
-    surveys: any[]
+    surveys: any[],
+    questionTypes: string[]
 }
 
 const tmpSurveys = [
@@ -14,7 +15,7 @@ const tmpSurveys = [
         title: "The codeholic",
         slug: "the-codeholic",
         status: "draft",
-        image: "http://lorem.com ",
+        image: "https://picsum.photos/200/300",
         description: "this is a description",
         created_at: "2011-12-20 18:00:00",
         updated_at: "2011-12-20 18:00:00",
@@ -95,7 +96,7 @@ const tmpSurveys = [
         title: "laravel 8",
         slug: "laravel-8",
         status: "active",
-        image: "https://upload.wikipedia.org/commons/thumb/8/9a/Laravel.svg/1200px-laravel.svg",
+        image: "https://picsum.photos/200/302",
         description: `Laravel is a web application framework with ecpressive, elegant syntax`,
         created_at: "2021-12-20 18:00:00",
         updated_at: "2021-12-20 18:00:00",
@@ -108,7 +109,8 @@ export const useUserStore = defineStore('user', {
     state: (): State => ({
         data: null,
         token: sessionStorage.getItem('token'),
-        surveys: [...tmpSurveys]
+        surveys: [...tmpSurveys],
+        questionTypes: ['text', 'select', 'radio', 'checkbox', 'textarea'],
     }),
     actions: {
         logout() {

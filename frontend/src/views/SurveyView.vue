@@ -1,13 +1,26 @@
 <script setup lang="ts">
+import { PlusIcon } from '@heroicons/vue/outline';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import QuestionEditor from '../components/editor/QuestionEditor.vue';
 import PageComponent from '../components/PageComponent.vue';
 import { useUserStore } from '../stores/user';
-import { PlusIcon } from '@heroicons/vue/outline';
+import { reactive } from 'vue';
 
 const route = useRoute()
 
-let model = ref({
+interface Survey {
+    id: null;
+    title: string;
+    status: boolean;
+    description: undefined;
+    image: null;
+    expire_date: null;
+    questions: {
+        id: string;
+    }[];
+}
+const model = reactive({
     id: null,
     title: '',
     status: false,
@@ -19,12 +32,26 @@ let model = ref({
 
 if (route.params.id) {
     const userStore = useUserStore()
-    model.value = userStore.surveys.find((survey: any) => {
-        return survey.id === route.params.id // add parse int route params id
+    const source = userStore.surveys.find((survey: any) => {
+        console.log(route.params.id)
+        return survey.id == route.params.id // add parse int route params id
     })
+    Object.assign(model, source)
 }
 
 function saveSurvey() {
+
+}
+
+function addQuestion() {
+    console.log('Add ¿question')
+}
+
+function questionChange() {
+
+}
+
+function deleteQuestion() {
 
 }
 </script>
@@ -41,15 +68,16 @@ function saveSurvey() {
 
         <form @submit.prevent="saveSurvey">
             <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <!-- Survey Fields -->
                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                     <!-- Image -->
                     <div>
-                        <label for="" class="block text-sm font-medium text-gray-700">
+                        <label class="block text-sm font-medium text-gray-700">
                             Image
                         </label>
                         <div class="mt-1 flex item-center">
                             <img v-if="model.image" :src="model.image" :alt="model.title"
-                                class="w-64 h-48 object-cover">
+                                class="w-64 h-48 object-cover rounded-md shadow-md">
                             <span v-else
                                 class="flex items-center justify-center h-12 w-12 rounded-full overflow-hidden bg-gray-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-[80%] w-[80%] text-gray-300"
@@ -58,12 +86,15 @@ function saveSurvey() {
                                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                             </span>
-                            <button type="button"
-                                class="relative overflow-hidden ml-5 bg-border py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <input type="file"
+                            <div>
+                                <button type="button"
+                                class="relative overflow-hidden ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <input type="file"
                                     class="absolute left-0 top-0 right-0 bottom-0 opacity-0 cursor-pointer">
-                                Change
-                            </button>
+                                    Change
+                                </button>
+                            </div>
+                            
                         </div>
                     </div>
                     <!--/ Image -->
@@ -110,19 +141,22 @@ function saveSurvey() {
                     </div>
                     <!--/ Status -->
                 </div>
+                <!--/ Survey Fields -->
 
                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                     <h3 class="text-2xl font-semibold flex items-center justify-between">
                         Questions
-                        <button class="flex items-center text-sm py-1 px-4 rounded-sm text-white bg-gray-600 hover:bg-gray-700 ">
+                        <!-- Add New Question -->
+                        <button type="button" class="flex items-center text-sm py-1 px-4 rounded-sm text-white bg-gray-600 hover:bg-gray-700" @click="addQuestion">
                             <PlusIcon class="h-3 w-3"/>
                             Add Question
                         </button>
+                        <!--/ Add New Question -->
                     </h3>
                     <div v-if="!model.questions.length" class="text-center text-gray-600">
                         You don't have any questions created
                     </div>
-                    <div v-for="(question, index) in model.questions" :key="question.id">
+                    <div v-for="(question, index) in model.questions" :key="index">
                         <QuestionEditor :question="question" :index="index" @change="questionChange" @addQuestion="addQuestion" @deleteQuestion="deleteQuestion"/>
                     </div>
                 </div>
