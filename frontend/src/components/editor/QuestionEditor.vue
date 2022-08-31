@@ -63,8 +63,13 @@ function dataChange() {
     emit('change', data)
 }
 
-function addQuestion () {}
-function deleteQuestion () {}
+function addQuestion () {
+    emit('addQuestion', props.index + 1)
+}
+
+function deleteQuestion () {
+    emit('deleteQuestion', props.question)
+}
 
 </script>
 

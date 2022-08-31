@@ -6,6 +6,7 @@ import QuestionEditor from '../components/editor/QuestionEditor.vue';
 import PageComponent from '../components/PageComponent.vue';
 import { useUserStore } from '../stores/user';
 import { reactive } from 'vue';
+import { v4 as uuidv4 } from 'uuid'
 
 const route = useRoute()
 
@@ -39,19 +40,35 @@ if (route.params.id) {
     Object.assign(model, source)
 }
 
+function addQuestion(index: any) {
+    const newQuestion = {
+        id: uuidv4(),
+        type: 'text',
+        question: '',
+        description: null,
+        data: {}
+    }
+    model.questions.splice(index, 0, newQuestion)
+}
+
+
+function deleteQuestion(question: any) {
+    model.questions = model.questions.filter((q: any) => q.id !== question.id )
+}
+
+function questionChange(question: any) {
+    const questions = model.questions.map((q: any) => {
+        if (q.id === question.id) {
+            return JSON.parse(JSON.stringify(question))
+        }
+
+        return q
+    })
+
+    Object.assign(model.questions, questions)
+}
+
 function saveSurvey() {
-
-}
-
-function addQuestion() {
-    console.log('Add ¿question')
-}
-
-function questionChange() {
-
-}
-
-function deleteQuestion() {
 
 }
 </script>
